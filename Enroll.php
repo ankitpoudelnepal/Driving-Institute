@@ -20,7 +20,7 @@
 
   </head>
 
-  <body>
+  <body style="background-color:#cdddbe;">
 
     <!-- ***** Preloader Start ***** -->
     
@@ -65,11 +65,9 @@
               <li class="nav-item">
                 <a class="nav-link" href="about.html">About Us</a>
               </li>  
+                                      
               <li class="nav-item">
-                <a class="nav-link" href="services.html">Our Services</a>
-              </li>                          
-              <li class="nav-item">
-                <a class="nav-link" href="contact.html">Contact Us</a>
+                <a class="nav-link" href="contact.php">Contact Us</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="quiz.php">Quiz</a>
@@ -88,30 +86,8 @@
     <!-- Page Content -->
 
     <!-- Page Content -->
-    <div class="page-heading header-text">
-      <div class="container">
-        <div class="row">
-          <div class="col-md-12">
-            <h1>Enroll Today</h1>
-            <span>Join Class According to your feasibility</span>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="request-form">
-      <div class="container">
-        <div class="row">
-          <div class="col-md-8">
-            <h4>Request a call back right now ?</h4>
-            <span>Hello !! we are going to mention in our institute</span>
-          </div>
-          <div class="col-md-4">
-            <a href="contact.html" class="border-button">Contact Us</a>
-          </div>
-        </div>
-      </div>
-    </div>
+ 
+    
     <style>
         .carousel-control-prev,
 .carousel-control-next {
@@ -122,115 +98,88 @@
 }
     </style>
     <hr>
-    <div class="section-heading">
-              <h2>Our <em>Classes</em></h2>
-              <span>We offer these classes!!</span>
-            </div>
-    <div id="carouselExampleControls" class="carousel slide m-5" data-ride="carousel">
-  <div class="carousel-inner p-5 m-5">
-    <?php
-    // Include database connection file
-    include 'inc/db_connect.php';
-
-    // Select all classes with status 1 from the database
-    $sql = "SELECT * FROM classes ";
-    $result = $conn->query($sql);
-
-    // Initialize loop counter
-    $i = 0;
-
-    // Loop through all classes and display them in the carousel
-    while ($row = $result->fetch_assoc()) {
-      // Set active class for the first item
-      $active = ($i == 0) ? 'active' : '';
-
-      // Format start date
-      $startDate = date('F j, Y', strtotime($row['StartDate']));
-
-      // Format start time
-      $startTime = date('h:i A', strtotime($row['StartTime']));
-
-      // Format end time
-      $endTime = date('h:i A', strtotime($row['EndTime']));
-    ?>
-    <div class="carousel-item <?php echo $active; ?>">
-      <div class="row">
-        <div class="col-md-2">
-          
-        </div>
-        <div class="col-md-8">
-          <div class="down-content">
-            <h4><?php echo $row['Subject']; ?></h4>
-            <p><?php echo $row['Description']; ?></p>
-            <ul class="list-group">
-              <li class="list-group-item"><strong>Tutor:</strong> <?php echo $row['TutorID']; ?></li>
-              <li class="list-group-item"><strong>Start Date:</strong> <?php echo $startDate; ?></li>
-              <li class="list-group-item"><strong>Start Time:</strong> <?php echo $startTime; ?></li>
-              <li class="list-group-item"><strong>End Time:</strong> <?php echo $endTime; ?></li>
-              <li class="list-group-item"><strong>Class Capacity:</strong> <?php echo $row['ClassCapacity']; ?></li>
-              <li class="list-group-item"><strong>Class Price:</strong> <?php echo $row['ClassPrice']; ?></li>
-            </ul>
-            <a href="#Booking" class="mt-5 filled-button">Enroll Now</a>
-          </div>
-        </div>
-      </div>
-    </div>
-    <?php
-      // Increment loop counter
-      $i++;
-    }
-    ?>
-  </div>
-  
-
-    
-
-
-
-
-
-
-    <div class="more-info">
-      <div class="container">
-        <div class="row">
-          <div class="col-md-12">
-            <div class="more-info-content">
-              <div class="row">
-                <div class="col-md-6">
-                  <div class="left-image">
-                    <img src="assets/images/cc.jpg" alt="">
-                  </div>
-                </div>
-                <div class="col-md-6 align-self-center">
-                  <div class="right-content">
-                    <span>Who we are</span>
-                    <h2>Get to know  <em> About Us</em></h2>
-                    <p>Our well experienced and trustfull tutor are here for to give you the service of driving course and driving skills.<br><br> Our Tutor are experienced as well as giving more outcome by providing practical and  knowlegde for passing the written exams also </p>
-                    <a href="about.html" class="filled-button">About us</a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
 
 
     <a id=Booking></a>
-    <div class="callback-form" >
+    <div class="callback-form mb-5" >
       <div class="container">
         <div class="row">
           <div class="col-md-12">
             <div class="section-heading">
               <h2>Request to<em>Book Class</em></h2>
-              <span>We will get the notification about your request and notify you.</span>
+              <span>
+              <?php
+                            // Include database connection file
+                            include 'inc/db_connect.php';
+                            $class_id = $_GET['class'];
+
+                            // Prepare and execute the SQL statement to select all tutors
+                            $stmt = $conn->prepare("SELECT c.ClassID, t.Name as TutorName, c.Subject, c.Description, c.StartDate, c.StartTime, c.EndTime, c.ClassCapacity, c.ClassPrice 
+                            FROM classes c 
+                            INNER JOIN tutors t ON c.TutorID = t.TutorID where ClassID = $class_id");
+                            $stmt->execute();
+                            $result = $stmt->get_result();
+                            
+                            // Loop through the result set and output each tutor as an option in the select element
+                            while ($row = $result->fetch_assoc()) {
+                              $class_id = $row['ClassID'];
+                              $feasible_time = $row['StartTime'];
+
+                              ?>
+                              <p> Class Name: 
+                              <?php
+                                echo $row['Subject'];
+                              ?>    
+                            </P>
+                            <p> Start Date: 
+                              <?php
+                                echo $row['StartDate'];
+                              ?>    
+                            </P>
+                            <p> Start Time: 
+                              <?php
+                                echo $row['StartTime'];
+                              ?>    
+                            </P>
+                            <p> End Time: 
+                              <?php
+                                echo $row['EndTime'];
+                              ?>    
+                            </P>
+                            <p> Price: 
+                              <?php
+                                echo $row['ClassPrice'];
+                              ?>    
+                            </P>
+                            <p> Class Capacity: 
+                              <?php
+                                echo $row['ClassCapacity'];
+                              ?>    
+                            </P>
+                            <p> Class Tutor: 
+                              <?php
+                                echo $row['TutorName'];
+                              ?>    
+                            </P>
+
+
+                              <?php
+                            }
+                            
+                            // Close the database connection and free up resources
+                            $stmt->close();
+                            $conn->close();
+                        ?>
+              </span>
             </div>
           </div>
           <div class="col-md-12">
             <div class="contact-form">
             <form action="add_request.php" method="POST">
+              <input type="hidden" value="<?php echo $class_id?>" name="class_id">
+              <input type="hidden" value="<?php echo $feasible_time?>" name="feasible_time">
+              <input type="hidden" value="0" name="status ">
+
   <div class="row">
     <div class="col-lg-4 col-md-12 col-sm-12">
       <label for="name">Full Name:</label>
@@ -248,34 +197,8 @@
       <label for="address">Address:</label>
       <input name="address" type="text" class="form-control" id="address" placeholder="Enter your address" required>
     </div>
-    <div class="col-lg-12">
-      <label for="feasible_time">Feasible Time:</label>
-      <input name="feasible_time" type="text" class="form-control" id="feasible_time" placeholder="Enter your feasible time" required>
-    </div>
-    <div class="col-lg-12">
-      <label for="class_id">Class:</label>
-      <select class="form-control" id="ClassID" name="class_id" required>
-                            <option value="">----Class----</option>
-                        <?php
-                            // Include database connection file
-                            include 'inc/db_connect.php';
-                            
-                            // Prepare and execute the SQL statement to select all tutors
-                            $stmt = $conn->prepare("SELECT ClassID,Subject FROM classes");
-                            $stmt->execute();
-                            $result = $stmt->get_result();
-                            
-                            // Loop through the result set and output each tutor as an option in the select element
-                            while ($row = $result->fetch_assoc()) {
-                            echo "<option value=\"" . $row["ClassID"] . "\">" . $row["Subject"] . "</option>";
-                            }
-                            
-                            // Close the database connection and free up resources
-                            $stmt->close();
-                            $conn->close();
-                        ?>
-                        </select>
-    </div>
+ 
+    
     <div class="col-lg-12">
       <label for="message">Message:</label>
       <textarea name="message" rows="6" class="form-control" id="message" placeholder="Enter your message" required></textarea>
@@ -302,7 +225,7 @@
               <span>Teaching To Drive</span>
               <h2>For you <em>,By Best</em></h2>
               <p>We are Experienced and Work upon Providing Best Driving Classes  
-              <br><br>See our services and surf the sections we provide just for you <br><a href="services.html" class="filled-button">Visit Services</a>
+              <br><br>See our services and surf the sections we provide just for you <br><a href="#" class="filled-button">Visit Services</a>
             </div>
           </div>
           <div class="col-md-6 align-self-center">
@@ -423,9 +346,9 @@
           <div class="col-md-3 footer-item">
             <h4>Useful Links</h4>
             <ul class="menu-list">
-              <li><a href="contact.html">Contact</a></li>
+              <li><a href="contact.php">Contact</a></li>
               <li><a href="About.html">About </a></li>
-              <li><a href="Services.html">Services</a></li>
+              <li><a href="#">Services</a></li>
               <li><a href="quiz.php">Quiz</a></li>
               <li><a href="#">FAQ</a></li>
             </ul>
@@ -436,7 +359,7 @@
               <li><a href="about.html">About Us</a></li>
               <li><a href="car.html.html">Car</a></li>
               <li><a href="#">Quick Support</a></li>
-              <li><a href="contact.html">Contact Us</a></li>
+              <li><a href="contact.php">Contact Us</a></li>
               <li><a href="#">Privacy Policy</a></li>
             </ul>
           </div>
@@ -462,7 +385,7 @@
                   </div>
                   <div class="col-lg-12">
                     <fieldset>
-                      <button type="submit" id="form-submit" class="filled-button">Send Message</button>
+                      <button type="submit" id="form-submit" class="filled-button">Enroll Message</button>
                     </fieldset>
                   </div>
                 </div>

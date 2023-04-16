@@ -7,7 +7,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <link href="https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700,800,900&display=swap" rel="stylesheet">
-
     <title>Sundar Driving Institute</title>
 
     <!-- Bootstrap core CSS -->
@@ -19,6 +18,32 @@
     <link rel="stylesheet" href="assets/css/owl.css">
 
   </head>
+
+  <?php
+// Include database connection file
+include 'inc/db_connect.php';
+
+// Get count of students
+$sql_students = "SELECT COUNT(*) as count_students FROM students";
+$result_students = $conn->query($sql_students);
+$count_students = $result_students->fetch_assoc()['count_students'];
+
+// Get count of tutors
+$sql_tutors = "SELECT COUNT(*) as count_tutors FROM tutors";
+$result_tutors = $conn->query($sql_tutors);
+$count_tutors = $result_tutors->fetch_assoc()['count_tutors'];
+
+// Get count of Classes
+$sql_classes = "SELECT COUNT(*) as count_classes FROM classes";
+$result_classes = $conn->query($sql_classes);
+$count_classes = $result_classes->fetch_assoc()['count_classes'];
+
+// Get count of questions
+$sql_questions = "SELECT COUNT(*) as count_questions FROM questions";
+$result_questions = $conn->query($sql_questions);
+$count_questions = $result_questions->fetch_assoc()['count_questions'];
+
+?>
 
   <body>
 
@@ -65,11 +90,9 @@
               <li class="nav-item">
                 <a class="nav-link" href="about.html">About Us</a>
               </li>  
+                                      
               <li class="nav-item">
-                <a class="nav-link" href="services.html">Our Services</a>
-              </li>                          
-              <li class="nav-item">
-                <a class="nav-link" href="contact.html">Contact Us</a>
+                <a class="nav-link" href="contact.php">Contact Us</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="quiz.php">Quiz</a>
@@ -98,7 +121,7 @@
 
                   
 
-                  <a href="contact.html" class="filled-button">Contact Us</a>
+                  <a href="contact.php" class="filled-button">Contact Us</a>
                 </div>
             </div>
           </div>
@@ -112,7 +135,7 @@
 
               
 
-                  <a href="services.html" class="filled-button">our services</a>
+                  <a href="#" class="filled-button">our services</a>
                 </div>
             </div>
           </div>
@@ -145,7 +168,7 @@
             <span>Hello !! we are going to mention in our institute</span>
           </div>
           <div class="col-md-4">
-            <a href="contact.html" class="border-button">Contact Us</a>
+            <a href="contact.php" class="border-button">Contact Us</a>
           </div>
         </div>
       </div>
@@ -208,7 +231,13 @@
               <li class="list-group-item"><strong>Class Capacity:</strong> <?php echo $row['ClassCapacity']; ?></li>
               <li class="list-group-item"><strong>Class Price:</strong> <?php echo $row['ClassPrice']; ?></li>
             </ul>
-            <a href="#Booking" class="mt-5 filled-button">Enroll Now</a>
+    
+            <!-- Button trigger modal -->
+<a type="button" class="mt-5  btn btn-success" href = "Enroll.php?class=<?php echo $row['ClassID']; ?>">
+  Enroll Now
+    </a>
+
+
           </div>
         </div>
       </div>
@@ -244,33 +273,33 @@
               <span>Teaching To Drive</span>
               <h2>For you <em>,By Best</em></h2>
               <p>We are Experienced and Work upon Providing Best Driving Classes  
-              <br><br>See our services and surf the sections we provide just for you <br><a href="services.html" class="filled-button">Visit Services</a>
+              <br><br>See our services and surf the sections we provide just for you <br><a href="#" class="filled-button">Visit Services</a>
             </div>
           </div>
           <div class="col-md-6 align-self-center">
             <div class="row">
               <div class="col-md-6">
                 <div class="count-area-content">
-                  <div class="count-digit">9045</div>
-                  <div class="count-title">Work Hours</div>
+                  <div class="count-digit"><?php echo $count_classes; ?></div>
+                  <div class="count-title">Our Classes</div>
                 </div>
               </div>
               <div class="col-md-6">
                 <div class="count-area-content">
-                  <div class="count-digit">2</div>
-                  <div class="count-title"> tutors</div>
+                  <div class="count-digit"><?php echo $count_tutors; ?></div>
+                  <div class="count-title"> Our Tutors</div>
                 </div>
               </div>
               <div class="col-md-6">
                 <div class="count-area-content">
-                  <div class="count-digit">24</div>
-                  <div class="count-title">Vehicles</div>
+                  <div class="count-digit"><?php echo $count_students; ?></div>
+                  <div class="count-title">Students</div>
                 </div>
               </div>
               <div class="col-md-6">
                 <div class="count-area-content">
-                  <div class="count-digit">26</div>
-                  <div class="count-title">Awards Won</div>
+                  <div class="count-digit"><?php echo $count_questions; ?></div>
+                  <div class="count-title">Quiz Questions</div>
                 </div>
               </div>
             </div>
@@ -359,7 +388,7 @@
     </div>
 
     <a id=Booking></a>
-    <div class="callback-form" >
+    <div class="callback-form mb-5" >
       <div class="container">
         <div class="row">
           <div class="col-md-12">
@@ -473,7 +502,7 @@
             <span>Mauris ut dapibus velit cras interdum nisl ac urna tempor mollis.</span>
           </div>
           <div class="col-md-4">
-            <a href="services.html" class="border-button"> Book now </a>
+            <a href="#" class="border-button"> Book now </a>
           </div>
         </div>
       </div>
@@ -509,9 +538,9 @@
           <div class="col-md-3 footer-item">
             <h4>Useful Links</h4>
             <ul class="menu-list">
-              <li><a href="contact.html">Contact</a></li>
+              <li><a href="contact.php">Contact</a></li>
               <li><a href="About.html">About </a></li>
-              <li><a href="Services.html">Services</a></li>
+              <li><a href="#">Services</a></li>
               <li><a href="quiz.php">Quiz</a></li>
               <li><a href="faq.php">FAQ</a></li>
             </ul>
@@ -522,7 +551,7 @@
               <li><a href="about.html">About Us</a></li>
               <li><a href="car.html.html">Car</a></li>
               <li><a href="#">Quick Support</a></li>
-              <li><a href="contact.html">Contact Us</a></li>
+              <li><a href="contact.php">Contact Us</a></li>
               <li><a href="#">Privacy Policy</a></li>
             </ul>
           </div>

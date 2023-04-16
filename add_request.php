@@ -12,12 +12,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $class_id = $_POST["class_id"];
     $message = $_POST["message"];
     $status = 0; // Set default status to "pending"
+    $date = date('Y-m-d H:i:s');
 
-    $sql = "INSERT INTO ClassRequest (Name, Phone, Email, Address, FeasibleTime, ClassID, Message, Status)
-    VALUES ('$name', '$phone', '$email', '$address', '$feasible_time', '$class_id', '$message', '$status')";
+    $sql = "INSERT INTO ClassRequest (Name, Phone, Email, Address, FeasibleTime, ClassID, Message, Status, submit_datetime)
+    VALUES ('$name', '$phone', '$email', '$address', '$feasible_time', '$class_id', '$message', '$status', '$date')";
 
     if ($conn->query($sql) === TRUE) {
         // echo "Request submitted successfully!";
+        // echo $sql;
         header("Location:index.php");
     } else {
         echo "Error: " . $sql . "<br>" . $conn->error;

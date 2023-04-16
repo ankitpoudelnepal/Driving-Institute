@@ -85,11 +85,9 @@ $result = $conn->query($sql);
               <li class="nav-item active">
                 <a class="nav-link" href="about.html">About Us</a>
               </li>
+              
               <li class="nav-item">
-                <a class="nav-link" href="services.html">Our Services</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="contact.html">Contact Us</a>
+                <a class="nav-link" href="contact.php">Contact Us</a>
               </li>
 
               <!--
@@ -386,7 +384,7 @@ $result = $conn->query($sql);
             <span>Mauris ut dapibus velit cras interdum nisl ac urna tempor mollis.</span>
           </div>
           <div class="col-md-4">
-            <a href="services.html" class="border-button"> Book now </a>
+            <a href="#" class="border-button"> Book now </a>
           </div>
         </div>
       </div>

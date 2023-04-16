@@ -32,7 +32,7 @@
             <span>Mauris ut dapibus velit cras interdum nisl ac urna tempor mollis.</span>
           </div>
           <div class="col-md-4">
-            <a href="services.html" class="border-button"> Book now </a>
+            <a href="#" class="border-button"> Book now </a>
           </div>
         </div>
       </div>
